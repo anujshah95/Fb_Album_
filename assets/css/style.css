@@ -1,0 +1,30 @@
+body {
+	padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+    .form-signin {
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+    .form-signin .form-signin-heading{
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        border-bottom: 1px #ccc dotted;
+        text-align: center;
+    }
+    .form-signin .footer{
+        padding-top: 10px;
+        margin-top: 20px;
+        border-top: 1px #ccc dotted;
+        font-weight: 600;
+    }
+    .fa {
+        color: #cc0000;
+    }
+    .user_details{
+        width: 1300px;
+        margin-left: -500px;
+    }
