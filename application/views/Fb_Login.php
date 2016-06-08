@@ -40,7 +40,7 @@
 
     <div class="container">
         <form class="form-signin" role="form">
-            <?php if (@$user_profile):  // call var_dump($user_profile) to view all data ?>
+            <?php if (@$user_profile): ?>
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <img class="img-thumbnail" data-src="holder.js/140x140" alt="140x140" src="https://graph.facebook.com/<?=$user_profile['id']?>/picture?type=large" style="width: 140px; height: 140px;">
@@ -62,9 +62,6 @@
                 <h2 class="form-signin-heading">Login with Facebook</h2>
                 <a href="<?= $login_url ?>" class="btn btn-lg btn-primary btn-block" role="button">Login</a>
             <?php endif; ?>
-
-
-
         </form>
 
 
