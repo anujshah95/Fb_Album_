@@ -18,10 +18,36 @@
                         <h2><?=$user_profile['name']?></h2>
                         <div class="user_details">
                         <?php
-                            if(isset($user_profile))
-                                echo "<pre>";
-                                  print_r($user_profile);
-                                echo "</pre>";
+                            // if(isset($user_profile))
+                            //     echo "<pre>";
+                            //       print_r($user_profile);
+                            //     echo "</pre>";
+                            $counter=1;
+                            echo "<table><tbody>";
+                            foreach($albums['data'] as $album)  
+                            {
+                                if ($counter == 1) 
+                                {
+                                    echo "<tr>";
+                                }
+                                        echo "<td style='text-align:center'>";
+                                            echo "<img class='img-thumbnail' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'><br><br>";
+                                            echo $album['name']."<br><br>";
+                                        echo "</td>";
+
+                                    if ($counter == 4) { 
+                                    echo("</tr>");
+                                    $counter = 1;
+                                    } else {
+                                    $counter++;
+                                    }
+                            }
+
+                            if ($counter > 1) 
+                            { 
+                                echo("<td colspan='". (4 - $counter) ."'>&nbsp;</td></tr>"); 
+                            }
+                            echo "</tbody></table>";    
                          ?>
                          </div>
 

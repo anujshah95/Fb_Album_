@@ -18,115 +18,64 @@ class Fb_Login extends CI_Controller {
             try 
             {
                 $data['user_profile'] = $this->facebook->api('/me?fields=id,name,first_name,last_name,age_range,link,gender,locale,picture,timezone,updated_time,verified,albums');
-                if(isset($_GET['code'])) $data['code']=$_GET['code'];
-
-
-    // $albums = $this->facebook->api('/me/albums');
-    // $totalPhotoOfAlbum = array(); // To store total number of photos of each Album
-
-    // print_r($albums);
-    // echo $this->facebook->getAccessToken();
-    // echo "<br>";
-    // print_r($this->facebook->api('/me/albums'));
-    //  Counting Total photos of each Album and storing in an array
-    // foreach($albums['data'] as $album){
-        
-    //     $count = 0;
-    //     $photos = $facebook->api("/{$album['id']}/photos");
-        
-    //     foreach($photos['data'] as $photo)
-    //         $count = $count + 1;
-            
-    //     $totalPhotoOfAlbum[] = $count; // store no. of photos in array of an album
-
-// $access_token=$this->facebook->getAccessToken();
-// $yo=$this->facebook->api('/me/albums?access_token='.$access_token); 
-
-// echo "<pre>";
-// print_r($yo);
-// echo "</pre>";
-// echo "<br><br>";
-
-// echo "<pre>";
-// $per = $this->facebook->api('/me/permissions'); 
-// print_r($per);
-// echo "</pre>";
-// echo "<br><br>";
-
- // $albums = $this->facebook->api('/me/albums?fields=id'); 
- // echo "<pre>";
- // print_r( $this->facebook->api('/me/albums?fields=id'));
- // echo "</pre>";
- //  $pictures = array();
- //  foreach ($albums['data'] as $album) {
- //    $pics = $this->facebook->api('/'.$album['id'].'/photos?fields=source,picture');
- //    $pictures[$album['id']] = $pics['data'];
- //  }
-
- //  //display the pictures url
- //  $output="";
- //  foreach ($pictures as $album) {
- //    //Inside each album
- //    foreach ($album as $image) {
-
- //      $output .= $image['source'] . '<br />';
- //    }
- //  }
- //  print_r($output);
-
-        // $albums1 = $this->facebook->api('/me/photos');
-        // echo "<br>";
-        // echo "<pre>";
-        // print_r($albums1);
-        // echo "</pre>";
-        // foreach($albums1['data'] as $album)  
-        // {
-        //     print ('<a href="albumPhotos.php?album_id='.$album['id'].'">'.$album['name'].'</a>'.'</br>' ) ;
-        // }
-                // $albums = $this->facebook->api('/me/albums');
-                // $totalPhotoOfAlbum = array(); // To store total number of photos of each Album
-                // echo "<br>";
-                // print_r($this->facebook->api('/me/albums'));
-                //  Counting Total photos of each Album and storing in an array
-                // foreach($albums['data'] as $album){
-                //     $count = 0;
-                //     $photos = $facebook->api("/{$album['id']}/photos");
+                // if(isset($_GET['code'])) $data['code']=$_GET['code'];
                 
-                //     foreach($photos['data'] as $photo)
-                //         $count = $count + 1;
-                //     $totalPhotoOfAlbum[] = $count; // store no. of photos in array of an album
+                //--------------------------------------------------------------------------------------------------------------------------
 
+                // // Fetch through accessToken 
                 // $access_token=$this->facebook->getAccessToken();
-                // $access_token_Help=$this->facebook->api('/me/albums?access_token='.$access_token); 
-                // print_r($access_token_Help);
-                // echo "<br><br>";
-                
+                // $albums=$this->facebook->api('/me/albums?access_token='.$access_token); 
+                // $albums = $this->facebook->api('/me/albums');
                 // echo "<pre>";
-                //     $perm = $this->facebook->api('/me/permissions'); 
-                //     print_r($perm);
+                // print_r($albums);
                 // echo "</pre>";
-                // echo "<br><br>";
+                //--------------------------------------------------------------------------------------------------------------------------
+
+                // To display all permissions which are granted or declined
+                // echo "<pre>";
+                    // $per = $this->facebook->api('/me/permissions'); 
+                    // print_r($per);
+                // echo "</pre>";
+
+                //--------------------------------------------------------------------------------------------------------------------------
 
                 // $albums = $this->facebook->api('/me/albums?fields=id'); 
-                // print_r($this->facebook->api('/me/albums?fields=id'));
-                // $pictures = array();
-                
-                // foreach ($albums['data'] as $album) 
-                // {
-                //     $pics = $facebook->api('/'.$album['id'].'/photos?fields=source,picture');
-                //     $pictures[$album['id']] = $pics['data'];
-                // }
+                // echo "<pre>";
+                //     print_r( $this->facebook->api('/me/albums?fields=id'));
+                // echo "</pre>";
+                //  $pictures = array();
+                //  foreach ($albums['data'] as $album) {
+                //    $pics = $this->facebook->api('/'.$album['id'].'/photos?fields=source,picture');
+                //    $pictures[$album['id']] = $pics['data'];
+                //  }
 
                 // //display the pictures url
+                // $output="";
                 // foreach ($pictures as $album) 
                 // {
                 //     //Inside each album
                 //     foreach ($album as $image) 
                 //     {
-                //         $output .= $image['source'] . '<br />';
-                //         print_r($output);
+                //       $output .= $image['source'] . '<br />';
                 //     }
                 // }
+                // echo "<pre>";
+                // print_r($output);
+                // echo "</pre>";
+
+                //--------------------------------------------------------------------------------------------------------------------------
+                
+                $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture');
+                $data['albums']=$albums;
+                // echo "<br>";
+                // echo "<pre>";
+                // print_r($albums);
+                // echo "</pre>";
+                // foreach($albums['data'] as $album)  
+                // {
+                //     print ('<a href="albumPhotos.php?album_id='.$album['id'].'">'.$album['name'].'</a>'.'</br>' ) ;
+                // }
+
             } 
             catch (FacebookApiException $e) 
             {
