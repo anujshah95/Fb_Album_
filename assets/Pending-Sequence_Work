@@ -1,0 +1,16 @@
+UI Framework – Use Twitter Bootstrap for frontend user interface. Make sure what you create looks nice!
+Responsive – Your assignment must work on mobile devices like iPhone/Android.
+Code Organisation – All 3rd party codes, library must be inside lib folder. No unwanted files e.g. IDE files, temporary files should be committed on git-repo. (Hint: Write a nice .gitignore)
+Coding Standard – You can use PHP Code Sniffer and JSHint on localhost. Additionally, you can should configure scrutinizer-ci so your code quality can be seen easily.
+Unit Testing – Assignments without unit tests will not be accepted. You may use wp-cli to setup unit testing easily.
+GitHub Readme – Write a nice GitHub Readme using markdown syntax. Make sure you include demo link and links to libraries used in readme.
+
+
+Steps :
+
+1. PHP Code Sniffer , JSHint
+2. scrutinizer-ci
+3. Setup nd initial push
+4. Unit Testing
+5. Start
+6. Just start with simple login with fb 
