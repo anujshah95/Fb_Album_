@@ -12,19 +12,13 @@ class Fb_Login extends CI_Controller {
     {   
 		$this->load->library('facebook'); // Automatically picks appId and secret from config
 		$user = $this->facebook->getUser();
-
-<<<<<<< HEAD
         
-=======
->>>>>>> 16880e025fc55b6c27584eaf89ab19873c1cb0ed
         if ($user) 
         {
             try 
             {
                 $data['user_profile'] = $this->facebook->api('/me?fields=id,name,first_name,last_name,age_range,link,gender,locale,picture,timezone,updated_time,verified,albums');
                 if(isset($_GET['code'])) $data['code']=$_GET['code'];
-
-<<<<<<< HEAD
 
 
     // $albums = $this->facebook->api('/me/albums');
@@ -89,7 +83,6 @@ class Fb_Login extends CI_Controller {
         // {
         //     print ('<a href="albumPhotos.php?album_id='.$album['id'].'">'.$album['name'].'</a>'.'</br>' ) ;
         // }
-=======
                 // $albums = $this->facebook->api('/me/albums');
                 // $totalPhotoOfAlbum = array(); // To store total number of photos of each Album
                 // echo "<br>";
@@ -134,7 +127,6 @@ class Fb_Login extends CI_Controller {
                 //         print_r($output);
                 //     }
                 // }
->>>>>>> 16880e025fc55b6c27584eaf89ab19873c1cb0ed
             } 
             catch (FacebookApiException $e) 
             {
@@ -143,10 +135,8 @@ class Fb_Login extends CI_Controller {
         }
         else 
         {
-<<<<<<< HEAD
             // Solves first time login issue. (Issue: #10)
-=======
->>>>>>> 16880e025fc55b6c27584eaf89ab19873c1cb0ed
+
             //$this->facebook->destroySession();
         }
       
@@ -158,13 +148,8 @@ class Fb_Login extends CI_Controller {
         {
             $data['login_url'] = $this->facebook->getLoginUrl(array(
                 'redirect_uri' => base_url('Fb_Login'),
-<<<<<<< HEAD
                 // 'scope' => array("email,user_friends,user_likes,user_photos,publish_actions") // permissions here
                 'scope' => array("user_photos") // permissions here
-=======
-                // 'scope' => array("email,user_friends,user_likes,user_photos,publish_actions") // permissions 
-                'scope' => array("user_photos") // permissions 
->>>>>>> 16880e025fc55b6c27584eaf89ab19873c1cb0ed
             ));
         }
         $this->load->view('Fb_Login',$data);
