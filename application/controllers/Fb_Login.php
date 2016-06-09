@@ -96,18 +96,24 @@ class Fb_Login extends CI_Controller {
                 'scope' => array("user_photos") // permissions here
             ));
         }
+        $this->load->view('header');
         $this->load->view('Fb_Login',$data);
+        $this->load->view('footer');
 	}
 
-    function album_photos($album_id)
+    function album_photos()
     {
+        $album_id=$_POST['album_id'];
         $user = $this->facebook->getUser();
         $album_photos=$this->facebook->api('/'.$album_id.'/photos?fields=source,picture');
-        // echo "<pre>";
-        //     print_r($album_photos);
-        // echo "</pre>";
-        $data['album_photos']=$album_photos;
-        $this->load->view('Album_View',$data);
+        $album_photos_url = array();
+        
+        foreach ($album_photos['data'] as $album_photo)
+        {
+            $album_photos_url[]=$album_photo['source'];
+        }        
+        // $this->output->set_header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(array('album_photos' => $album_photos_url));
     }
 
     function logout()

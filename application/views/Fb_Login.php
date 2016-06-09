@@ -1,14 +1,9 @@
-<html>
-<head>
-    <title>Login with Facebook</title>
-
-    <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css'); ?>">
-</head>
-
 <body>
     <div class="container">
+        <div id="loading" class="loadingPage">
+            <!-- <i class="fa fa-spinner fa-spin fa-3x"></i> -->
+        </div>
+
         <form class="form-signin" role="form">
             <?php if (@$user_profile): ?>
                 <div class="row">
@@ -33,10 +28,8 @@
                                         echo "<tr>";
                                     }
                                             echo "<td style='text-align:center'>";
-                                                // echo $album['id'];
                                                 $id=$album['id'];
-                                                echo "<a href='Fb_Login/album_photos/$id' target='_blank'>";
-                                                echo "<img class='img-thumbnail' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'><br><br>";
+                                                echo "<img class='img-thumbnail' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;' onClick='getPhotos(".$id.")'><br><br>";
                                                 echo $album['name']."<br><br>";
                                             echo "</td>";
 
@@ -57,6 +50,11 @@
                          ?>
                          </div>
 
+                         <div id="album_photos">
+
+
+                         </div>
+
                         <a href="<?=$user_profile['link']?>" target="_blank" class="btn btn-lg btn-default btn-block" role="button">View Profile</a>
                         <?php if(isset($logout_url)) { ?> <a href="<?= $logout_url ?>" class="btn btn-lg btn-primary btn-block" role="button">Logout</a> <?php } ?>
                     </div>
@@ -67,9 +65,3 @@
             <?php endif; ?>
         </form>
     </div> <!-- /container -->
-
-    <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-2.2.4.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
-
-</body>
-</html>
