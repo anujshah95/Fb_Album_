@@ -1,15 +1,16 @@
     <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-2.2.4.min.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo base_url('assets/jquery.bxslider/jquery.bxslider.min.js'); ?>"></script>
-
+	<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+	<script src="<?php echo base_url('assets/blueimp/js/bootstrap-image-gallery.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/alertifyjs/alertify.js'); ?>" type="text/javascript" /></script>
     <script type="text/javascript">
+
 
    	$("#loading").hide();	
 	function getPhotos(id)
 	{
 		$("#loading").show();
 		$(document).ready(function () {
-			// alert(id);
 	        var form_data={
 	        	album_id: id,
 	        };
@@ -17,68 +18,42 @@
 	           	url: "<?php echo base_url('Fb_Login/album_photos'); ?>",
 	            type: "POST",
 	            data: form_data,
-	            // dataType: "JSON",
 	            success: function (data){
 	            	var obj = jQuery.parseJSON(data);
-	            	if(obj['album_photos'])
+	            	if(obj['album_photos_url'])
 	            	{
 	            		$("#loading").hide();
-	            		// data: { album_photos : obj['album_photos'] }
-	            		// $('#album_photos').html(obj['album_photos']);
-	            		var text='<ul>';
-	            		album_photos=obj['album_photos'];
-	            		for(i=0;i<album_photos.length;i++)
+	            		album_photos_url=obj['album_photos_url'];
+	            		// photos_name=obj['photos_name'];
+	            		// alert(photos_name);
+	            		// alert(album_photos[0]);
+	            		if(album_photos_url=="")
 	            		{
-	            			text+="<li><img src=\""+album_photos[i] + "\"/></li>";
+							alertify.alert('No photos found in this album..!!').set('basic', true); 
+	            			alertify.error("No photos found in this album..!!");
 	            		}
-	            		text+="</ul>";
-	            		$('#album_photos').html(text);
 
-	            	}
-	            	if(!obj['album_photos'])
-	            	{
-	    				$('#album_photos').html("lol thai gayu...");
+	            		if(album_photos_url!="")
+	            		{
+		            		var add=""
+		            		for(i=0;i<album_photos_url.length;i++)
+		            		{
+								add+="<a "
+								if(i==0) add+="id=\"abcd\" "
+								add+="href=\""+album_photos_url[i]+"\" title='lolmlol' data-gallery>"
+								add+="<img src=\""+album_photos_url[i]+"\">"
+								add+="</a>"
+								
+							}
+								$('#links').html(add);
+			            		document.getElementById('abcd').click();
+	            		}
 	            	}
 	              	
 	              	}
 	            });
 	     });
 	}
-// $("#getPhotosOfAlbum").on('click', function() {
-//    alert ("inside onclick");
-//    // window.location = "http://www.google.com";
-// });
-     	// function getPhotos(cid)
-      //   {
-      //                   $(document).ready(function () {
-      //                       //alert(cid);
-      //                       /*$('input[type=text],input[type=textarea],input[type=file]').each(function() {
-      //                        $(this).val('');
-      //                        });*/
-      //                       $('#updateCatName,#updateCatDetail,#updateFileName').each(function () {
-      //                           $(this).val('');
-      //                           $('#uploadError').html('');
-      //                       });
-
-      //                       $.ajax({
-      //                           url: "<?php echo base_url('Admin/getCategoryData'); ?>",
-      //                           type: "POST",
-      //                           data: "cid=" + cid,
-      //                           dataType: "JSON",
-      //                           success: function (data)
-      //                           {
-      //                               $('[name="updateCatId"]').val(data.id);
-      //                               $('[name="cat_name"]').val(data.name);
-      //                               $('#catImgName').val(data.catImg);
-      //                               $('#catImgSRC').html('<img src="<?php echo base_url(); ?>assets/uploads/category/' + data.catImg + '" width="400" />');
-      //                               $('[name="cat_detail"]').val(data.details);
-
-      //                               $('#updateModal').modal('show'); // show bootstrap modal when complete loaded
-      //                               //$('.modal-title').text('Update Category Data'); // Set title to Bootstrap modal title
-      //                           }
-      //                       });
-      //                   });
-      //               }
 	</script>
 </body>
 </html>

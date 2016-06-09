@@ -37,21 +37,22 @@ class Fb_Login extends CI_Controller {
 
                 //--------------------------------------------------------------------------------------------------------------------------
 
-                // $albums = $this->facebook->api('/me/albums?fields=id'); 
+                // $albums = $this->facebook->api('/me/albums?fields=id,name'); 
                 // $pictures = array();
-                //  foreach ($albums['data'] as $album) {
-                //    $pics = $this->facebook->api('/'.$album['id'].'/photos?fields=source,picture');
-                //    // echo "<pre>";
-                //    // print_r($pics);
-                //    // echo "</pre>";
+                //  foreach ($albums['data'] as $album) 
+                //  {
+                //    $pics = $this->facebook->api('/'.$album['id'].'/photos?fields=name.limit(5),source.limit(5),picture.limit(5)');
+                //    echo "<pre>";
+                //    print_r($pics);
+                //    echo "</pre>";
                 //    $pictures[$album['id']] = $pics['data'];
                 //  }
 
-                 // echo "<pre>";
-                 // print_r($this->facebook->api('/'.'199755226719364'.'/photos?fields=source,picture'));
-                 // echo "</pre>";
+                //  // echo "<pre>";
+                //  // // print_r($this->facebook->api('/'.$albums['id'].'/photos?fields=source,picture'));
+                //  // echo "</pre>";
 
-                 // $data['pictures']=$pictures;
+                //  $data['pictures']=$pictures;
                 // // display the pictures url
                 // $output="";
                 // foreach ($pictures as $album) 
@@ -68,7 +69,10 @@ class Fb_Login extends CI_Controller {
 
                 //--------------------------------------------------------------------------------------------------------------------------
                 
-                $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture');
+                $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,source,count');
+                // echo "<pre>";
+                //     print_r($albums);
+                // echo "</pre>";
                 $data['albums']=$albums;
             } 
 
@@ -105,16 +109,30 @@ class Fb_Login extends CI_Controller {
     {
         $album_id=$_POST['album_id'];
         $user = $this->facebook->getUser();
-        $album_photos=$this->facebook->api('/'.$album_id.'/photos?fields=source,picture');
+        $album_photos=$this->facebook->api('/'.$album_id.'/photos?fields=name,source,picture');
         $album_photos_url = array();
+        // $photos_name = array();
         
         foreach ($album_photos['data'] as $album_photo)
         {
+            // if(isset($album_photo['name']))
+            // {
+            //     $photos_name[]=$album_photo['name']; 
+            // }
+            // if(!isset($album_photo['name']))
+            // {
+            //     // $album['name']='';
+            //     $photos_name[]="";
+            //     continue;
+            // }
+
             $album_photos_url[]=$album_photo['source'];
         }        
         // $this->output->set_header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(array('album_photos' => $album_photos_url));
+        // echo json_encode(array('album_photos_url' => $album_photos_url,'photos_name' => $photos_name));
+        echo json_encode(array('album_photos_url' => $album_photos_url));
     }
+
 
     function logout()
     {
