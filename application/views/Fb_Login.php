@@ -22,42 +22,48 @@
                             //     echo "<pre>";
                             //       print_r($user_profile);
                             //     echo "</pre>";
-                            $counter=1;
-                            echo "<table><tbody>";
-                            foreach($albums['data'] as $album)  
+                            if(isset($albums))
                             {
-                                if ($counter == 1) 
+                                $counter=1;
+                                echo "<table><tbody>";
+
+                                foreach($albums['data'] as $album)  
                                 {
-                                    echo "<tr>";
-                                }
-                                        echo "<td style='text-align:center'>";
-                                            echo "<img class='img-thumbnail' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'><br><br>";
-                                            echo $album['name']."<br><br>";
-                                        echo "</td>";
-
-                                    if ($counter == 4) { 
-                                    echo("</tr>");
-                                    $counter = 1;
-                                    } else {
-                                    $counter++;
+                                    if ($counter == 1) {
+                                        echo "<tr>";
                                     }
-                            }
+                                            echo "<td style='text-align:center'>";
+                                                // echo $album['id'];
+                                                $id=$album['id'];
+                                                echo "<a href='Fb_Login/album_photos/$id' target='_blank'>";
+                                                echo "<img class='img-thumbnail' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'><br><br>";
+                                                echo $album['name']."<br><br>";
+                                            echo "</td>";
 
-                            if ($counter > 1) 
-                            { 
-                                echo("<td colspan='". (4 - $counter) ."'>&nbsp;</td></tr>"); 
+                                        if ($counter == 4) { 
+                                        echo("</tr>");
+                                        $counter = 1;
+                                        } else {
+                                        $counter++;
+                                        }
+                                }
+
+                                if ($counter > 1) 
+                                { 
+                                    echo("<td colspan='". (4 - $counter) ."'>&nbsp;</td></tr>"); 
+                                }
+                                echo "</tbody></table>";    
                             }
-                            echo "</tbody></table>";    
                          ?>
                          </div>
 
                         <a href="<?=$user_profile['link']?>" target="_blank" class="btn btn-lg btn-default btn-block" role="button">View Profile</a>
-                        <a href="<?= $logout_url ?>" class="btn btn-lg btn-primary btn-block" role="button">Logout</a>
+                        <?php if(isset($logout_url)) { ?> <a href="<?= $logout_url ?>" class="btn btn-lg btn-primary btn-block" role="button">Logout</a> <?php } ?>
                     </div>
                 </div>
             <?php else: ?>
                 <h2 class="form-signin-heading">Login with Facebook</h2>
-                <a href="<?= $login_url ?>" class="btn btn-lg btn-primary btn-block" role="button">Login</a>
+                <?php if(isset($login_url)) { ?> <a href="<?= $login_url ?>" class="btn btn-lg btn-primary btn-block" role="button">Login</a> <?php } ?>
             <?php endif; ?>
         </form>
     </div> <!-- /container -->
