@@ -11,7 +11,7 @@
                         <h2><?=$user_profile['name']?></h2>
 
                         <div id="album_photos">
-                            <div id="blueimp-gallery" class="blueimp-gallery" data-use-bootstrap-modal="false" >
+                            <div id="blueimp-gallery" class="blueimp-gallery modal" data-use-bootstrap-modal="false">
                                 <div class="slides"></div>
                                 <h3 class="title"></h3>
                                 <a class="prev">‹</a>
@@ -19,7 +19,7 @@
                                 <a class="close">×</a>
                                 <a class="play-pause"></a>
                                 <ol class="indicator"></ol>
-                                <div class="modal fade">
+                                <div class="modal fade" id="modal" role="dialog" data-backdrop="static" data-keyboard="false">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -46,10 +46,24 @@
 
                         <div class="user_details">
                         <?php
-                            // if(isset($user_profile))
+                            // if(isset($albums))
                             //     echo "<pre>";
-                            //       print_r($user_profile);
+                            //       print_r($albums);
                             //     echo "</pre>";
+
+                            echo "<a href='#' onClick=\"download_All_Album()\">
+                                    <button type='button' class='btn btn-primary btn-lg'>
+                                        <span class='glyphicon glyphicon-download-alt'></span> 
+                                        Download All
+                                    </button>
+                                    </a>";
+
+                            // echo "<a href='#' onClick=\"download_All_Album1()\">
+                            //         <button type='button' class='btn btn-primary btn-lg'>
+                            //             <span class='glyphicon glyphicon-download-alt'></span> 
+                            //             Download All1
+                            //         </button>
+                            //         </a>";                                    
                             if(isset($albums))
                             {
                                 $counter=1;
@@ -62,12 +76,13 @@
                                     }
                                             echo "<td style='text-align:center'>";
                                                 $id=$album['id'];
+                                                $album_name=$album['name'];
                                                 // echo "<a href='Fb_Login/album_photos1/$id'>".$id."</a>";
                                                 echo "<a href='#' onClick='getPhotos(".$id.")'> 
                                                         <img class='img-thumbnail' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'>
                                                     </a><br><br>";
                                                 echo "<a href='#' onClick='getPhotos(".$id.")'>".$album['name']." (".$album['count'].")"."</a><br><br>";
-                                                echo "<a href='#' onClick='download_Album(".$id.")'><button type='button' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-download-alt'></span> Download This Album</button></a>";
+                                                echo "<a href='#' onClick=\"download_Album(".$id.",'".$album['name']."')\"><button type='button' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-download-alt'></span> Download This Album</button></a>";
                                             echo "</td>";
 
                                         if ($counter == 4) { 
@@ -97,3 +112,5 @@
             <?php endif; ?>
         </form>
     </div> <!-- /container -->
+
+

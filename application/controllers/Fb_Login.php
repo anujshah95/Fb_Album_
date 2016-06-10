@@ -5,7 +5,7 @@ class Fb_Login extends CI_Controller {
 	public function __construct()
     {
 		parent::__construct();
-        $this->load->library('facebook'); // Automatically picks appId and secret from config
+        $this->load->library('facebook'); 
 	}
 
 	public function index()
@@ -69,10 +69,7 @@ class Fb_Login extends CI_Controller {
 
                 //--------------------------------------------------------------------------------------------------------------------------
                 
-                $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,source,count');
-                // echo "<pre>";
-                //     print_r($albums);
-                // echo "</pre>";
+                $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,count');
                 $data['albums']=$albums;
             } 
 
@@ -83,8 +80,6 @@ class Fb_Login extends CI_Controller {
         }
         else 
         {
-            // Solves first time login issue. (Issue: #10)
-
             //$this->facebook->destroySession();
         }
       
@@ -100,6 +95,7 @@ class Fb_Login extends CI_Controller {
                 'scope' => array("user_photos") // permissions here
             ));
         }
+
         $this->load->view('header');
         $this->load->view('Fb_Login',$data);
         $this->load->view('footer');
@@ -109,51 +105,146 @@ class Fb_Login extends CI_Controller {
     {
         $album_id=$_POST['album_id'];
         $user = $this->facebook->getUser();
-        $album_photos=$this->facebook->api('/'.$album_id.'/photos?fields=name,source,picture');
+        $album_photos=$this->facebook->api('/'.$album_id.'/photos?fields=name,source,picture&limit=1000');
         $album_photos_url = array();
-        // $photos_name = array();
+        $photos_name = array();
         
         foreach ($album_photos['data'] as $album_photo)
         {
-            // if(isset($album_photo['name']))
-            // {
-            //     $photos_name[]=$album_photo['name']; 
-            // }
-            // if(!isset($album_photo['name']))
-            // {
-            //     // $album['name']='';
-            //     $photos_name[]="";
-            //     continue;
-            // }
-
             $album_photos_url[]=$album_photo['source'];
+            if(isset($album_photo['name']))
+            {
+                $photos_name[]=$album_photo['name']; 
+            }
+            if(!isset($album_photo['name']))
+            {
+                // $album['name']='';
+                $photos_name[]="";
+                continue;
+            }
         }        
         // $this->output->set_header('Content-Type: application/json; charset=utf-8');
-        // echo json_encode(array('album_photos_url' => $album_photos_url,'photos_name' => $photos_name));
-        echo json_encode(array('album_photos_url' => $album_photos_url));
+        echo json_encode(array('album_photos_url' => $album_photos_url,'photos_name' => $photos_name));
+        // echo json_encode(array('album_photos_url' => $album_photos_url));
     }
 
-    function download_Album($album_id)
+    function download_Album()
     {
+        $album_id=$_POST['album_id'];
+        $album_name=$_POST['album_name'];
+        $album_name = str_replace(' ', '_', $album_name);
+
         $user = $this->facebook->getUser();
         $album_photos=$this->facebook->api('/'.$album_id.'/photos?fields=name,source,picture');
         $album_photos_url = array();
         
-        if (!file_exists('assets/downloads/'.$album_id)) {
-            mkdir('assets/downloads/'.$album_id, 0777, true);
+        if (!file_exists('assets/downloads/'.$album_name)) {
+            mkdir('assets/downloads/'.$album_name, 0777, true);
         }
 
         foreach ($album_photos['data'] as $album_photo)
         {
             $album_photos_url[]=$album_photo['source'];
             $name = $album_photo['id'].".jpg";
-            copy($album_photo['source'],$_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_id."/".$album_photo['id'].".jpg");
+            copy($album_photo['source'],$_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_name."/".$album_photo['id'].".jpg");
         }        
             $current_time=date('Y-m-d_H:i:s');
-            $path = $_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_id;
+            $download_zip_file_name=$album_name."_".$current_time;
+            
+            $path = $_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_name;
             $this->zip->read_dir($path); 
-            $this->zip->archive($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/zip_files/'.$album_id.'_'.$current_time.'.zip');
+            $this->zip->archive($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/zip_files/'.$download_zip_file_name.'.zip');
+            // $this->zip->archive($download_zip_file_name.'.zip');
+            
+            $data = array(
+                'download_zip_file_link' => base_url()."assets/downloads/zip_files/".$download_zip_file_name.".zip",
+                'album_name'=>$album_name
+            );
+
+            $this->session->set_userdata($data);  
+
+        echo json_encode(array('download_zip_file_name' => 'download_zip_file_name'));
     }
+
+    function download_All_Album()
+    {
+        $download_All_Album_value=$_POST['download_All_Album_value'];
+
+        if(!$download_All_Album_value)
+            redirect('Fb_Login');
+
+        $user = $this->facebook->getUser();
+        $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,count&limit=2');
+        
+        foreach ($albums['data'] as $album) 
+        {
+            if (!file_exists('assets/downloads/'.$album['name'])) 
+            {
+                mkdir('assets/downloads/'.$album['name'], 0777, true);
+            }
+
+            $pics = $this->facebook->api('/'.$album['id'].'/photos?fields=name,source,picture&limit=1000');
+
+            foreach($pics['data'] as $pic)
+            {
+                $name = $album['id'].".jpg";
+                copy($pic['source'],$_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name']."/".$pic['id'].".jpg");
+            }
+
+            $path = $_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name'];
+            $this->zip->read_dir($path); 
+        }
+        
+        $current_time=date('Y-m-d_H:i:s');
+        $download_all_album_zip_file_name="download_all_albums"."_".$current_time;
+        $this->zip->archive($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/zip_files/'.$download_all_album_zip_file_name.'.zip');
+
+            $data = array(
+                'download_zip_file_link' => base_url()."assets/downloads/zip_files/".$download_all_album_zip_file_name.".zip"
+            );
+
+            $this->session->set_userdata($data);  
+
+        echo json_encode(array('download_all_album_zip_file_name' => 'download_all_album_zip_file_name'));        
+    }
+
+    // function download_All_Album1()
+    // {
+    //     $user = $this->facebook->getUser();
+    //     $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,count');
+        
+    //     foreach ($albums['data'] as $album) 
+    //     {
+    //         if (!file_exists('assets/downloads/'.$album['name'])) 
+    //         {
+    //             mkdir('assets/downloads/'.$album['name'], 0777, true);
+    //         }
+
+    //         $pics = $this->facebook->api('/'.$album['id'].'/photos?fields=name,source,picture&limit=1000');
+
+    //         foreach($pics['data'] as $pic)
+    //         {
+    //             $name = $album['id'].".jpg";
+    //             copy($pic['source'],$_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name']."/".$pic['id'].".jpg");
+    //         }
+
+    //         $path = $_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name'];
+    //         $this->zip->read_dir($path); 
+    //     }
+        
+    //     $current_time=date('Y-m-d_H:i:s');
+    //     $download_all_album_zip_file_name="download_all_albums"."_".$current_time;
+    //     $this->zip->archive($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/zip_files/'.$download_all_album_zip_file_name.'.zip');
+    // }   
+
+    // function download_zip_file()
+    // {
+    //     $download_zip_file_name=$this->session->userdata('download_zip_file_name').'.zip';
+    //     $data = file_get_contents(base_url('assets/downloads/zip_files/'.$download_zip_file_name)); // Read the file's contents
+    //     $name = $download_zip_file;
+    //     force_download($name, $data);  
+    //     $this->session->unset_userdata('download_zip_file_name');
+    // }
 
     function logout()
     {

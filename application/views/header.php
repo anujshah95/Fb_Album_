@@ -2,6 +2,7 @@
 <head>
     <title>Login with Facebook</title>
 
+    <link href="<?php echo base_url(); ?>assets/images/fb_icon.png" rel='shortcut icon' >
     <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css'); ?>">
