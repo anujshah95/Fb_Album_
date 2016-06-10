@@ -54,6 +54,12 @@
 	            });
 	     });
 	}
+
+	function download_Album(id)
+	{
+		// alert(id);
+		window.location='<?php echo base_url(); ?>Fb_Login/download_Album/'+id;
+	}	
 	</script>
 </body>
 </html>

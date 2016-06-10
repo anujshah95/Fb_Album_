@@ -133,6 +133,27 @@ class Fb_Login extends CI_Controller {
         echo json_encode(array('album_photos_url' => $album_photos_url));
     }
 
+    function download_Album($album_id)
+    {
+        $user = $this->facebook->getUser();
+        $album_photos=$this->facebook->api('/'.$album_id.'/photos?fields=name,source,picture');
+        $album_photos_url = array();
+        
+        if (!file_exists('assets/downloads/'.$album_id)) {
+            mkdir('assets/downloads/'.$album_id, 0777, true);
+        }
+
+        foreach ($album_photos['data'] as $album_photo)
+        {
+            $album_photos_url[]=$album_photo['source'];
+            $name = $album_photo['id'].".jpg";
+            copy($album_photo['source'],$_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_id."/".$album_photo['id'].".jpg");
+        }        
+            $current_time=date('Y-m-d_H:i:s');
+            $path = $_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_id;
+            $this->zip->read_dir($path); 
+            $this->zip->archive($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/zip_files/'.$album_id.'_'.$current_time.'.zip');
+    }
 
     function logout()
     {

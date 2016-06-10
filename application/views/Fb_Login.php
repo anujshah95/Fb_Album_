@@ -62,12 +62,12 @@
                                     }
                                             echo "<td style='text-align:center'>";
                                                 $id=$album['id'];
-                                                echo "<a href='Fb_Login/album_photos1/$id'>".$id."</a>";
-                                                
+                                                // echo "<a href='Fb_Login/album_photos1/$id'>".$id."</a>";
                                                 echo "<a href='#' onClick='getPhotos(".$id.")'> 
                                                         <img class='img-thumbnail' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'>
                                                     </a><br><br>";
                                                 echo "<a href='#' onClick='getPhotos(".$id.")'>".$album['name']." (".$album['count'].")"."</a><br><br>";
+                                                echo "<a href='#' onClick='download_Album(".$id.")'><button type='button' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-download-alt'></span> Download This Album</button></a>";
                                             echo "</td>";
 
                                         if ($counter == 4) { 
