@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css'); ?>">
 	<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
 	<link rel="stylesheet" href="<?php echo base_url('assets/blueimp/css/bootstrap-image-gallery.min.css'); ?>" >
-    <link href="<?php echo base_url('assets/alertifyjs/css/alertify.css'); ?>" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="<?php echo base_url('assets/alertifyjs/css/alertify.css'); ?>" type="text/css" />
+    <!-- <link rel="stylesheet" href="<?php echo base_url('assets/css/loaders/loadingBar.css'); ?>" type="text/css"> -->
 
     <style type="text/css">
     .loadingPage {

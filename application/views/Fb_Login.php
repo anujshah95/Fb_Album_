@@ -1,6 +1,7 @@
 <body>
     <div class="container">
         <div id="loading" class="loadingPage"></div>
+        <div id="pace" class="pace"></div>
 
         <form class="form-signin" role="form">
             <?php if (@$user_profile): ?>
@@ -50,14 +51,26 @@
                             //     echo "<pre>";
                             //       print_r($albums);
                             //     echo "</pre>";
-
-                            echo "<a href='#' onClick=\"download_All_Album()\">
-                                    <button type='button' class='btn btn-primary btn-lg'>
-                                        <span class='glyphicon glyphicon-download-alt'></span> 
-                                        Download All
-                                    </button>
-                                    </a>";
-
+                            echo "<div class='row pull-right'>";
+                                // echo "<div class='checkbox'><label><input type='checkbox' class='check' id='selectAll_Albums'>Select All</label>";
+                                // echo "  <button type='button' class='btn btn-primary btn-md'>
+                                //             <span class='glyphicon'></span> 
+                                //             Select All
+                                //         </button>";
+                                echo "<a href='#' onClick=\"download_selected_albums()\">
+                                        <button type='button' class='btn btn-primary btn-md'>
+                                            <span class='glyphicon glyphicon-download-alt'></span> 
+                                            Download Selected
+                                        </button>
+                                        </a>";
+                                echo "<a href='#' onClick=\"download_All_Album()\">
+                                        <button type='button' class='btn btn-primary btn-md'>
+                                            <span class='glyphicon glyphicon-download-alt'></span> 
+                                            Download All Albums
+                                        </button>
+                                        </a>";
+                            // echo "</div>";
+                            echo "</div>";
                             // echo "<a href='#' onClick=\"download_All_Album1()\">
                             //         <button type='button' class='btn btn-primary btn-lg'>
                             //             <span class='glyphicon glyphicon-download-alt'></span> 
@@ -81,7 +94,8 @@
                                                 echo "<a href='#' onClick='getPhotos(".$id.")'> 
                                                         <img class='img-thumbnail' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'>
                                                     </a><br><br>";
-                                                echo "<a href='#' onClick='getPhotos(".$id.")'>".$album['name']." (".$album['count'].")"."</a><br><br>";
+                                                echo "<div class='checkbox'><input type='checkbox' value='".$id."' name='album_id'>";
+                                                echo "<a href='#' onClick='getPhotos(".$id.")'>".$album['name']." (".$album['count'].")"."</a></div><br><br>";
                                                 echo "<a href='#' onClick=\"download_Album(".$id.",'".$album['name']."')\"><button type='button' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-download-alt'></span> Download This Album</button></a>";
                                             echo "</td>";
 

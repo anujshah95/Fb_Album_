@@ -1,9 +1,11 @@
+    
     <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-2.2.4.min.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
 	<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
 	<script src="<?php echo base_url('assets/blueimp/js/bootstrap-image-gallery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/alertifyjs/alertify.js'); ?>" type="text/javascript" /></script>
-    
+    <!--<script src="<?php echo base_url('assets/js/loaders/pace.min.js'); ?>" type="text/javascript" ></script> -->
+
     <script type="text/javascript">
    	$("#loading").hide();	
    	// $('#myModal').modal({backdrop: 'static', keyboard: false});
@@ -112,10 +114,47 @@
 	     });
 	}	
 
-	// function download_All_Album1()
-	// {
-	// 	window.location.href='<?php echo base_url('Fb_Login/download_All_Album1'); ?>';
-	// }
+	function download_selected_albums()
+	{
+		var album_id_array=[];
+		$("input:checkbox[name=album_id]:checked").each(function(){
+    		album_id_array.push($(this).val());
+		});
+
+		if(album_id_array=='')
+		{
+			alertify.alert('Please select alteast one album for download..!!').set('basic', true); 
+	        alertify.error("Please select alteast one album for download..!!");			
+		}
+
+		if(album_id_array!='')
+		{
+			$(document).ready(function () {
+				$("#loading").show();
+				// alert(album_id_array);
+				var download_selected_albums_value="download_selected_albums_value";
+		        var form_data={
+		        	download_selected_albums_value: download_selected_albums_value,
+		        	album_id_array: album_id_array
+		        };
+		     	$.ajax({
+		           	url: "<?php echo base_url('Fb_Login/download_selected_albums'); ?>",
+		            type: "POST",
+		            data: form_data,
+		            success: function (data){
+		            	var obj = jQuery.parseJSON(data);
+		              
+		              	if(obj['download_selected_album_zip_file_name'])
+		            	{
+		            		$("#loading").hide();
+							window.location='<?php echo base_url(); ?>Fb_Login/';
+		              	}
+		              }
+		            });
+		     });
+		}
+	}	
+
 	</script>
 
 
