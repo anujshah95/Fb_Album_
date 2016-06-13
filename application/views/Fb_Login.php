@@ -1,16 +1,11 @@
-<body>
-    <div class="container">
-        <div id="loading" class="loadingPage"></div>
-        <div id="pace" class="pace"></div>
 
+    <div class="container">
         <form class="form-signin" role="form">
-            <?php if (@$user_profile): ?>
+            <?php if(isset($user_profile))
+            {
+            ?>
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <img class="img-thumbnail" data-src="holder.js/140x140" alt="140x140" src="https://graph.facebook.com/<?=$user_profile['id']?>/picture?type=large" 
-                            style="width: 140px; height: 140px;">
-                        <h2><?=$user_profile['name']?></h2>
-
                         <div id="album_photos">
                             <div id="blueimp-gallery" class="blueimp-gallery modal" data-use-bootstrap-modal="false">
                                 <div class="slides"></div>
@@ -45,18 +40,9 @@
                             <div id="links" class="links"></div>
                         </div>
 
-                        <div class="user_details">
+                        <div class="albums_list">
                         <?php
-                            // if(isset($albums))
-                            //     echo "<pre>";
-                            //       print_r($albums);
-                            //     echo "</pre>";
                             echo "<div class='row pull-right'>";
-                                // echo "<div class='checkbox'><label><input type='checkbox' class='check' id='selectAll_Albums'>Select All</label>";
-                                // echo "  <button type='button' class='btn btn-primary btn-md'>
-                                //             <span class='glyphicon'></span> 
-                                //             Select All
-                                //         </button>";
                                 echo "<a href='#' onClick=\"download_selected_albums()\">
                                         <button type='button' class='btn btn-primary btn-md'>
                                             <span class='glyphicon glyphicon-download-alt'></span> 
@@ -69,14 +55,8 @@
                                             Download All Albums
                                         </button>
                                         </a>";
-                            // echo "</div>";
                             echo "</div>";
-                            // echo "<a href='#' onClick=\"download_All_Album1()\">
-                            //         <button type='button' class='btn btn-primary btn-lg'>
-                            //             <span class='glyphicon glyphicon-download-alt'></span> 
-                            //             Download All1
-                            //         </button>
-                            //         </a>";                                    
+                                  
                             if(isset($albums))
                             {
                                 $counter=1;
@@ -87,23 +67,25 @@
                                     if ($counter == 1) {
                                         echo "<tr>";
                                     }
-                                            echo "<td style='text-align:center'>";
+                                            echo "<td style='text-align:center' class='user_albums'>";
                                                 $id=$album['id'];
                                                 $album_name=$album['name'];
-                                                // echo "<a href='Fb_Login/album_photos1/$id'>".$id."</a>";
                                                 echo "<a href='#' onClick='getPhotos(".$id.")'> 
-                                                        <img class='img-thumbnail' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'>
+                                                        <img class='img-thumbnail ' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'>
                                                     </a><br><br>";
                                                 echo "<div class='checkbox'><input type='checkbox' value='".$id."' name='album_id'>";
-                                                echo "<a href='#' onClick='getPhotos(".$id.")'>".$album['name']." (".$album['count'].")"."</a></div><br><br>";
+                                                echo "<a href='#' onClick='getPhotos(".$id.")'>".$album['name']." (".$album['count'].")"."</a></div><br>";
                                                 echo "<a href='#' onClick=\"download_Album(".$id.",'".$album['name']."')\"><button type='button' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-download-alt'></span> Download This Album</button></a>";
                                             echo "</td>";
 
-                                        if ($counter == 4) { 
-                                        echo("</tr>");
-                                        $counter = 1;
-                                        } else {
-                                        $counter++;
+                                        if ($counter == 4) 
+                                        { 
+                                            echo("</tr>");
+                                            $counter = 1;
+                                        } 
+                                        else 
+                                        {
+                                            $counter++;
                                         }
                                 }
 
@@ -115,15 +97,17 @@
                             }
                          ?>
                          </div>
-
-                        <a href="<?=$user_profile['link']?>" target="_blank" class="btn btn-lg btn-default btn-block" role="button">View Profile</a>
-                        <?php if(isset($logout_url)) { ?> <a href="<?= $logout_url ?>" class="btn btn-lg btn-primary btn-block" role="button">Logout</a> <?php } ?>
                     </div>
                 </div>
-            <?php else: ?>
+                        <?php
+                            }
+                        ?>
+                        <?php if(!isset($user_profile))
+                        {
+                        ?>
                 <h2 class="form-signin-heading">Login with Facebook</h2>
                 <?php if(isset($login_url)) { ?> <a href="<?= $login_url ?>" class="btn btn-lg btn-primary btn-block" role="button">Login</a> <?php } ?>
-            <?php endif; ?>
+                <?php } ?>
         </form>
     </div> <!-- /container -->
 

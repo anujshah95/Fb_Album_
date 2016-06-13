@@ -69,7 +69,11 @@ class Fb_Login extends CI_Controller {
 
                 //--------------------------------------------------------------------------------------------------------------------------
                 
-                $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,count');
+                $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,count&limit=100');
+
+                $picasa=file_get_contents('http://picasaweb.google.com/data/feed/api/user/anuj.shah95@gmail.com?kind=photo');
+                $picasa=json_decode($picasa);
+                echo "data : ".print_r($picasa);
                 $data['albums']=$albums;
             } 
 
@@ -90,13 +94,13 @@ class Fb_Login extends CI_Controller {
         else 
         {
             $data['login_url'] = $this->facebook->getLoginUrl(array(
-                'redirect_uri' => base_url('Fb_Login'),
+                'redirect_uri' => base_url('Fb_Login')
                 // 'scope' => array("email,user_friends,user_likes,user_photos,publish_actions") // permissions here
-                'scope' => array("user_photos") // permissions here
+                // 'scope' => array("user_photos") // permissions here
             ));
         }
 
-        $this->load->view('header');
+        $this->load->view('header',$data);
         $this->load->view('Fb_Login',$data);
         $this->load->view('footer');
 	}
@@ -104,6 +108,8 @@ class Fb_Login extends CI_Controller {
     function album_photos()
     {
         $album_id=$_POST['album_id'];
+        if(!$album_id)
+            redirect('Fb_Login');
         $user = $this->facebook->getUser();
         $album_photos=$this->facebook->api('/'.$album_id.'/photos?fields=name,source,picture&limit=1000');
         $album_photos_url = array();
@@ -131,11 +137,22 @@ class Fb_Login extends CI_Controller {
     function download_Album()
     {
         $album_id=$_POST['album_id'];
+        if(!$album_id)
+            redirect('Fb_Login');        
         $album_name=$_POST['album_name'];
         $album_name = str_replace(' ', '_', $album_name);
 
         $user = $this->facebook->getUser();
-        $album_photos=$this->facebook->api('/'.$album_id.'/photos?fields=name,source,picture');
+        $album_photos=$this->facebook->api('/'.$album_id.'/photos?fields=name,source,picture&limit=1000');
+
+        $album_photos = array_filter($album_photos);
+
+        if (empty($album_photos)) 
+        {
+           echo json_encode(array('no_photos_in_side_album' => 'no_photos_in_side_album'));
+           exit();
+        }
+
         $album_photos_url = array();
         
         if (!file_exists('assets/downloads/'.$album_name)) {
@@ -147,20 +164,23 @@ class Fb_Login extends CI_Controller {
             $album_photos_url[]=$album_photo['source'];
             $name = $album_photo['id'].".jpg";
             copy($album_photo['source'],$_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_name."/".$album_photo['id'].".jpg");
-            chmod($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_name."/".$album_photo['id'].".jpg",0777);
             chmod($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_name,0777);            
+            chmod($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_name."/".$album_photo['id'].".jpg",0777);            
         }        
             $current_time=date('Y-m-d_H:i:s');
             $download_zip_file_name=$album_name."_".$current_time;
             
             $path = $_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_name;
-            $this->zip->read_dir($path); 
+            $this->zip->read_dir($path,FALSE); 
             $this->zip->archive($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/zip_files/'.$download_zip_file_name.'.zip');
-            // $this->zip->archive($download_zip_file_name.'.zip');
+
+            $path = $_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album_name;
+            chmod($path, 0777);
+            delete_files($path, true);
+            rmdir($path);
             
             $data = array(
-                'download_zip_file_link' => base_url()."assets/downloads/zip_files/".$download_zip_file_name.".zip",
-                'album_name'=>$album_name
+                'download_zip_file_link' => base_url()."assets/downloads/zip_files/".$download_zip_file_name.".zip"
             );
 
             $this->session->set_userdata($data);  
@@ -176,7 +196,7 @@ class Fb_Login extends CI_Controller {
             redirect('Fb_Login');
 
         $user = $this->facebook->getUser();
-        $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,count');
+        $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,count&limit=100');
         
         foreach ($albums['data'] as $album) 
         {
@@ -191,17 +211,25 @@ class Fb_Login extends CI_Controller {
             {
                 $name = $album['id'].".jpg";
                 copy($pic['source'],$_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name']."/".$pic['id'].".jpg");
-                chmod($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name']."/".$pic['id'].".jpg",0777);
                 chmod($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name'],0777);                
+                chmod($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name']."/".$pic['id'].".jpg",0777);
             }
 
             $path = $_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name'];
-            $this->zip->read_dir($path); 
+            $this->zip->read_dir($path,FALSE); 
         }
         
         $current_time=date('Y-m-d_H:i:s');
         $download_all_album_zip_file_name="download_all_albums"."_".$current_time;
         $this->zip->archive($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/zip_files/'.$download_all_album_zip_file_name.'.zip');
+
+        foreach($albums['data'] as $album) 
+        {
+            $path = $_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name'];
+            chmod($path, 0777);
+            delete_files($path, true);
+            rmdir($path);
+        }
 
             $data = array(
                 'download_zip_file_link' => base_url()."assets/downloads/zip_files/".$download_all_album_zip_file_name.".zip"
@@ -219,13 +247,13 @@ class Fb_Login extends CI_Controller {
             redirect('Fb_Login');
 
         $album_id_array=$_POST['album_id_array'];
-        // print_r($album_id_array);
         // $album_id_array=explode(',', $album_id_array);
         $user = $this->facebook->getUser();
         
         foreach($album_id_array as $album_id)
         {
             $album = $this->facebook->api('/'.$album_id.'?fields=id,name,created_time,picture,count');
+
             if (!file_exists('assets/downloads/'.$album['name'])) 
             {
                 mkdir('assets/downloads/'.$album['name'], 0777, true);
@@ -236,16 +264,26 @@ class Fb_Login extends CI_Controller {
             {   
                 $name = $album['id'].".jpg";
                 copy($pic['source'],$_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name']."/".$pic['id'].".jpg");
+                chmod($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name'],0777);                
                 chmod($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name']."/".$pic['id'].".jpg",0777);
-                chmod($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name'],0777);
             }
             $path = $_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name'];
-            $this->zip->read_dir($path); 
+            $this->zip->read_dir($path,FALSE); 
         }
 
         $current_time=date('Y-m-d_H:i:s');
         $download_selected_album_zip_file_name="download_selected_albums"."_".$current_time;
         $this->zip->archive($_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/zip_files/'.$download_selected_album_zip_file_name.'.zip'); 
+
+
+        foreach($album_id_array as $album_id)
+        {
+            $album = $this->facebook->api('/'.$album_id.'?fields=id,name,created_time,picture,count');
+            $path = $_SERVER['DOCUMENT_ROOT'].'/Fb_Album_/assets/downloads/'.$album['name'];
+            chmod($path, 0777);
+            delete_files($path, true);
+            rmdir($path);
+        }
 
         $data = array(
             'download_zip_file_link' => base_url()."assets/downloads/zip_files/".$download_selected_album_zip_file_name.".zip"
@@ -253,7 +291,7 @@ class Fb_Login extends CI_Controller {
 
         $this->session->set_userdata($data);  
 
-        echo json_encode(array('download_selected_album_zip_file_name' => 'download_selected_album_zip_file_name'));                  
+        echo json_encode(array('download_selected_albums' => 'download_selected_albums'));                  
 
     }   
 
@@ -265,6 +303,32 @@ class Fb_Login extends CI_Controller {
     //     force_download($name, $data);  
     //     $this->session->unset_userdata('download_zip_file_name');
     // }
+
+    function Profile()
+    {
+     
+        // $data['user_profile'] = $this->facebook->api('/me?fields=id,name,first_name,last_name,email,age_range,link,gender,locale,picture,timezone,updated_time,verified,albums,birthday,friends,about,bio,context,cover,currency,devices,education,favorite_athletes,favorite_teams,hometown,inspirational_people,installed,languages,location,middle_name,name_format,political,quotes,relationship_status,religion,significant_other,third_party_id,is_verified,website,work&limit=5000');
+        // $data['user_photos'] = $this->facebook->api('/me/photos?&limit=5000');          
+        $data['user_profile'] = $this->facebook->api('/me?fields=id,name,first_name,last_name,email,age_range,link,gender,locale,picture,timezone,updated_time,verified,albums,cover,currency&limit=5000');
+        $data['user_photos'] = $this->facebook->api('/me/photos?&limit=5000');        
+        $data['logout_url'] = base_url('Fb_Login/logout');
+        $user = $this->facebook->getUser();
+            $data['login_url'] = $this->facebook->getLoginUrl(array(
+                'redirect_uri' => base_url('Fb_Login'),
+                // 'scope' => array("email,public_profile,user_friendsuser_about_me,user_photos,user_birthday,user_friends,user_location,user_likes,user_photos,publish_actions,user_education_history,user_hometown,user_location,user_website,user_work_history,manage_friendlists") // permissions here
+                'scope' => array("email,public_profile,user_friends") // permissions here                
+            ));           
+
+        $this->load->view('header',$data);
+        $this->load->view('Profile',$data);
+        $this->load->view('footer');
+
+    }
+
+    function _404()
+    {
+        redirect('Fb_Login');
+    }
 
     function logout()
     {

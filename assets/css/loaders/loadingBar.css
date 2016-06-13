@@ -27,7 +27,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  width: 200px;
+  width: 500px;
   height: 50px;
   overflow: hidden;
 }
@@ -50,6 +50,7 @@
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 
+
   display: block;
   position: absolute;
   right: 100%;
@@ -63,7 +64,7 @@
   line-height: 60px;
   font-weight: bold;
   font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
-
+  
   -webkit-box-shadow: 120px 0 #fff, 240px 0 #fff;
   -ms-box-shadow: 120px 0 #fff, 240px 0 #fff;
   box-shadow: 120px 0 #fff, 240px 0 #fff;
@@ -80,7 +81,7 @@
   top: 4px;
 }
 
-.pace .pace-progress[data-progress-text="0%"]:after { right: -200px }
+.pace .pace-progress[data-progress-text="0%"]:after { right: -500px }
 .pace .pace-progress[data-progress-text="1%"]:after { right: -198.14px }
 .pace .pace-progress[data-progress-text="2%"]:after { right: -196.28px }
 .pace .pace-progress[data-progress-text="3%"]:after { right: -194.42px }
