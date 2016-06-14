@@ -70,10 +70,6 @@ class Fb_Login extends CI_Controller {
                 //--------------------------------------------------------------------------------------------------------------------------
                 
                 $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,count&limit=100');
-
-                $picasa=file_get_contents('http://picasaweb.google.com/data/feed/api/user/anuj.shah95@gmail.com?kind=photo');
-                $picasa=json_decode($picasa);
-                echo "data : ".print_r($picasa);
                 $data['albums']=$albums;
             } 
 
@@ -309,14 +305,14 @@ class Fb_Login extends CI_Controller {
      
         // $data['user_profile'] = $this->facebook->api('/me?fields=id,name,first_name,last_name,email,age_range,link,gender,locale,picture,timezone,updated_time,verified,albums,birthday,friends,about,bio,context,cover,currency,devices,education,favorite_athletes,favorite_teams,hometown,inspirational_people,installed,languages,location,middle_name,name_format,political,quotes,relationship_status,religion,significant_other,third_party_id,is_verified,website,work&limit=5000');
         // $data['user_photos'] = $this->facebook->api('/me/photos?&limit=5000');          
-        $data['user_profile'] = $this->facebook->api('/me?fields=id,name,first_name,last_name,email,age_range,link,gender,locale,picture,timezone,updated_time,verified,albums,cover,currency&limit=5000');
-        $data['user_photos'] = $this->facebook->api('/me/photos?&limit=5000');        
+        $data['user_profile'] = $this->facebook->api('/me?fields=id,name,first_name,last_name,email,age_range,link,gender,locale,picture,timezone,updated_time,verified,albums,cover,currency,hometown&limit=5000');
+        $data['user_photos'] = $this->facebook->api('/me/photos?&limit=5000'); 
         $data['logout_url'] = base_url('Fb_Login/logout');
         $user = $this->facebook->getUser();
             $data['login_url'] = $this->facebook->getLoginUrl(array(
                 'redirect_uri' => base_url('Fb_Login'),
                 // 'scope' => array("email,public_profile,user_friendsuser_about_me,user_photos,user_birthday,user_friends,user_location,user_likes,user_photos,publish_actions,user_education_history,user_hometown,user_location,user_website,user_work_history,manage_friendlists") // permissions here
-                'scope' => array("email,public_profile,user_friends") // permissions here                
+                'scope' => array("email,public_profile,user_friends,user_hometown") // permissions here                
             ));           
 
         $this->load->view('header',$data);

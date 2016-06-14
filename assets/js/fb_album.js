@@ -1,10 +1,33 @@
 	$(document).ready(function() {
-   		$("#loading").hide();
+   		// $("#loading").hide();
+   		$("#loading").delay(400).fadeOut();
+   		$(".loadingPage").delay(400).fadeOut("fast");
    	});
+
+	if(typeof background_slideshow!=='undefined')
+	{
+	 	$(document).ready(function() {
+	 		$("#background-slideshow, body").vegas({
+	    		delay: 2500,
+	    		timer: false,
+	    		transition: 'fade',
+	    		transitionDuration: 2500,
+	    	slides: [
+	        { src: baseURL+'assets/images/1.jpg' },
+	        { src: baseURL+'assets/images/2.png' },
+	        { src: baseURL+'assets/images/3.jpg' },
+	        { src: baseURL+'assets/images/4.jpg' },
+	        { src: baseURL+'assets/images/5.jpg' },
+	        { src: baseURL+'assets/images/6.jpg' },
+	    		]
+			});  
+		});
+ 	}
 
 	function getPhotos(id)
 	{
 		$("#loading").show();
+		$('.loadingPage').show();
 		$(document).ready(function () {
 	        var form_data={
 	        	album_id: id,
@@ -18,6 +41,7 @@
 	            	if(obj['album_photos_url'])
 	            	{
 	            		$("#loading").hide();
+	            		$('.loadingPage').hide();
 	            		album_photos_url=obj['album_photos_url'];
 	            		photos_name=obj['photos_name'];
 	            		// alert(photos_name);
@@ -53,7 +77,7 @@
 	function download_Album(id,album_name)
 	{
 		$("#loading").show();
-		// Pace.track(function(){
+		$('.loadingPage').show();
 		$(document).ready(function () {
 	        var form_data={
 	        	album_id: id,
@@ -69,6 +93,7 @@
 	              	if(obj['no_photos_in_side_album'])
 	              	{
 						$("#loading").hide();
+						$('.loadingPage').hide();
 						alertify.alert('No photos to download from this empty album.').set('basic', true); 
 	            		alertify.error("No photos found in this album.");						
 	              	}
@@ -76,19 +101,19 @@
 	              	if(obj['download_zip_file_name'])
 	            	{
 	            		$("#loading").hide();
+	            		$('.loadingPage').hide();
 						window.location='<?php echo base_url(); ?>Fb_Login/';
 	              	}
 	              }
 	            });
 	     });
-		//});
 	}
 
 
 	function download_All_Album()
 	{
 		$("#loading").show();
-		// Pace.track(function(){
+		$('.loadingPage').show();
 		$(document).ready(function () {
 			var download_All_Album_value="download_All_Album_value";
 	        var form_data={
@@ -104,12 +129,12 @@
 	              	if(obj['download_all_album_zip_file_name'])
 	            	{
 	            		$("#loading").hide();
+	            		$('.loadingPage').hide();
 						window.location='<?php echo base_url(); ?>Fb_Login/';
 	              	}
 	              }
 	            });
 	     });
-		// });
 	}	
 
 	function download_selected_albums()
@@ -128,6 +153,7 @@
 		{
 			$(document).ready(function () {
 				$("#loading").show();
+				$('.loadingPage').show();
 				var download_selected_albums_value="download_selected_albums_value";
 		        var form_data={
 		        	download_selected_albums_value: download_selected_albums_value,
@@ -143,6 +169,7 @@
 		              	if(obj['download_selected_albums'])
 		            	{
 		            		$("#loading").hide();
+		            		$('.loadingPage').hide();
 							window.location='<?php echo base_url(); ?>Fb_Login/';
 		              	}
 		              }

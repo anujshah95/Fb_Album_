@@ -1,13 +1,17 @@
-    
-    <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-2.2.4.min.js'); ?>"></script>
-    <script type="text/javascript" src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js'); ?>"></script>
+
+    <script src="<?php echo base_url('assets/js/jquery-2.2.4.min.js'); ?>" type="text/javascript" ></script>
+    <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js'); ?>" ></script>
 	<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
 	<script src="<?php echo base_url('assets/blueimp/js/bootstrap-image-gallery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/alertifyjs/alertify.js'); ?>" type="text/javascript" /></script>
     <script src="<?php echo base_url('assets/js/fb_album.js'); ?>" type="text/javascript" ></script>
     <script type="text/javascript"> var baseURL = "<?php echo base_url(); ?>"; </script>
+    <script src="<?php echo base_url('assets/vegas/js/zepto.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/vegas/js/vegas.js'); ?>" type="text/javascript" ></script>
+    <script src="<?php echo base_url('assets/vegas/js/vegas.min.js'); ?>" type="text/javascript" ></script>
 
 <?php 
+
 	if($this->session->userdata('download_zip_file_link'))
 	{
 ?>

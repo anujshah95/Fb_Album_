@@ -7,47 +7,28 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/font-awesome/css/font-awesome.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/vegas/css/vegas.min.css'); ?>">
 	<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
 	<link rel="stylesheet" href="<?php echo base_url('assets/blueimp/css/bootstrap-image-gallery.min.css'); ?>" >
     <link rel="stylesheet" href="<?php echo base_url('assets/alertifyjs/css/alertify.css'); ?>" type="text/css" />
-    
-    <style type="text/css">
-    .loadingPage {
-    background-color: #333;
-    opacity: 0.8;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    z-index: 100;
-    height: 2000px;
-    width: 100%;
-    overflow: hidden;
-    background-image: url("<?php echo base_url('assets/images/loading.gif'); ?>");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    }
-
-    /*    
-    .user_albums a:hover:after {
-    content: url("<?php //echo base_url('assets/images/loading.gif'); ?>");
-    display: block;
-    }
-    */
-   </style>
 </head>
 
 <body>
-    <div id="loading" class="loadingPage"></div>
+    <div id="loading">
+        <div class="loadingPage"></div>
+    </div>
+
     <nav class="navbar navbar-inverse navbar-fixed-top fb_navbar">
         <div class="container-fluid">
             <div class="navbar-header" >
+                <?php if(isset($user_profile)) { ?>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                <?php } ?>
                 <a class="navbar-brand" href="<?php echo base_url(); ?>" style='color:white;font-size: 20px;'>Facebook Album</a>
             </div>
 
@@ -72,3 +53,4 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+
