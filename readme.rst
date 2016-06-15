@@ -1,29 +1,13 @@
 ###################
-What is CodeIgniter
+Facebook Album
 ###################
 
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+User visits the script page where he can login his/her account with facebook. After verifying username and password of facebook,
+script will fetch all albums of his/her facebook account and display it with name and number of photos inside album. On the click of name
+or thumbnail of album script will fetch all photos of selected album and display it in slideshow with autoplay option.
+Script is able to download single,multiple or all albums.Script also fetch all basic information of logged in user 
+by clicking on profile(right hand side of dropdown).
 
-*******************
-Release Information
-*******************
-
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<https://codeigniter.com/download>`_ page.
-
-**************************
-Changelog and New Features
-**************************
-
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
 
 *******************
 Server Requirements
@@ -31,7 +15,7 @@ Server Requirements
 
 PHP version 5.4 or newer is recommended.
 
-It should work on 5.2.4 as well, but we strongly advise you NOT to run
+Strongly advise to NOT to run
 such old versions of PHP, because of potential security and performance
 issues, as well as missing features.
 
@@ -43,28 +27,15 @@ Please see the `installation section <https://codeigniter.com/user_guide/install
 of the CodeIgniter User Guide.
 
 *******
-License
+Links and Libraries
 *******
 
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
+Demo : `Fb_Album_ <http://anujshah.in/Fb_Album_>`_
+`CodeIgniter <https://www.codeigniter.com/>`_ : CodeIgniter is an Application Development Framework - a toolkit - for people who build web sites using PHP.
+`Bootstrap <http://getbootstrap.com/>`_ : Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web.
+`jQuery <https://jquery.com/>`_ : jQuery is a fast, small, and feature-rich JavaScript library. 
+`Font Awesome <http://fontawesome.io/>`_ : The iconic font and CSS toolkit.
+`AlertifyJS <http://alertifyjs.com/>`_ : AlertifyJS is a javascript framework for developing pretty browser dialogs and notifications.
+`blueimp <https://blueimp.github.io/Gallery/>`_ : blueimp Gallery is a touch-enabled, responsive and customizable image gallery, carousel and lightbox, optimized for both mobile and desktop web browsers.
+`vegas <https://vegas.jaysalvat.com/>`_ : VEGAS is a jQuery plugin which adds beautiful animated background slideshows to your page body or any of its elements.
 
-*********
-Resources
-*********
-
--  `User Guide <https://codeigniter.com/docs>`_
--  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
--  `Community Forums <http://forum.codeigniter.com/>`_
--  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
--  `Community IRC <https://webchat.freenode.net/?channels=%23codeigniter>`_
-
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
-or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
-
-***************
-Acknowledgement
-***************
-
-The CodeIgniter team would like to thank EllisLab, all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
