@@ -68,6 +68,10 @@
         display: none;
     }
 
+    .checkbox a{
+        text-decoration: none;
+    }
+    
     .cover_photo {
     position: absolute;
     width:600px;

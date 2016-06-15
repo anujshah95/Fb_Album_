@@ -2,6 +2,7 @@
    		// $("#loading").hide();
    		$("#loading").delay(400).fadeOut();
    		$(".loadingPage").delay(400).fadeOut("fast");
+   		$('[data-toggle="tooltip"]').tooltip(); 
    	});
 
 	if(typeof background_slideshow!=='undefined')
@@ -126,6 +127,14 @@
 	            success: function (data){
 	            	var obj = jQuery.parseJSON(data);
 	              
+	              	if(obj['no_albums_found'])
+	              	{
+						$("#loading").hide();
+						$('.loadingPage').hide();
+						alertify.alert('No albums found for this account.').set('basic', true); 
+	            		alertify.error("No albums found for this account.");	
+	              	}
+
 	              	if(obj['download_all_album_zip_file_name'])
 	            	{
 	            		$("#loading").hide();

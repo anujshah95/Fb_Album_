@@ -5,70 +5,18 @@ class Fb_Login extends CI_Controller {
 	public function __construct()
     {
 		parent::__construct();
-        $this->load->library('facebook'); 
+        $this->load->library('facebook/facebook'); 
 	}
 
 	public function index()
     {   
+
         $user = $this->facebook->getUser();
         if ($user) 
         {
             try 
             {
                 $data['user_profile'] = $this->facebook->api('/me?fields=id,name,first_name,last_name,age_range,link,gender,locale,picture,timezone,updated_time,verified,albums');
-                // if(isset($_GET['code'])) $data['code']=$_GET['code'];
-                
-                //--------------------------------------------------------------------------------------------------------------------------
-
-                // // Fetch through accessToken 
-                // $access_token=$this->facebook->getAccessToken();
-                // $albums=$this->facebook->api('/me/albums?access_token='.$access_token); 
-                // $albums = $this->facebook->api('/me/albums');
-                // echo "<pre>";
-                // print_r($albums);
-                // echo "</pre>";
-                //--------------------------------------------------------------------------------------------------------------------------
-
-                // To display all permissions which are granted or declined
-                // echo "<pre>";
-                    // $per = $this->facebook->api('/me/permissions'); 
-                    // print_r($per);
-                // echo "</pre>";
-
-                //--------------------------------------------------------------------------------------------------------------------------
-
-                // $albums = $this->facebook->api('/me/albums?fields=id,name'); 
-                // $pictures = array();
-                //  foreach ($albums['data'] as $album) 
-                //  {
-                //    $pics = $this->facebook->api('/'.$album['id'].'/photos?fields=name.limit(5),source.limit(5),picture.limit(5)');
-                //    echo "<pre>";
-                //    print_r($pics);
-                //    echo "</pre>";
-                //    $pictures[$album['id']] = $pics['data'];
-                //  }
-
-                //  // echo "<pre>";
-                //  // // print_r($this->facebook->api('/'.$albums['id'].'/photos?fields=source,picture'));
-                //  // echo "</pre>";
-
-                //  $data['pictures']=$pictures;
-                // // display the pictures url
-                // $output="";
-                // foreach ($pictures as $album) 
-                // {
-                //     //Inside each album
-                //     foreach ($album as $image) 
-                //     {
-                //       $output .= $image['source'] . '<br />';
-                //     }
-                // }
-                // echo "<pre>";
-                // print_r($output);
-                // echo "</pre>";
-
-                //--------------------------------------------------------------------------------------------------------------------------
-                
                 $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,count&limit=100');
                 $data['albums']=$albums;
             } 
@@ -90,9 +38,8 @@ class Fb_Login extends CI_Controller {
         else 
         {
             $data['login_url'] = $this->facebook->getLoginUrl(array(
-                'redirect_uri' => base_url('Fb_Login')
-                // 'scope' => array("email,user_friends,user_likes,user_photos,publish_actions") // permissions here
-                // 'scope' => array("user_photos") // permissions here
+                'redirect_uri' => base_url('Fb_Login'),
+                'scope' => array("email") // permissions here
             ));
         }
 
@@ -125,9 +72,7 @@ class Fb_Login extends CI_Controller {
                 continue;
             }
         }        
-        // $this->output->set_header('Content-Type: application/json; charset=utf-8');
         echo json_encode(array('album_photos_url' => $album_photos_url,'photos_name' => $photos_name));
-        // echo json_encode(array('album_photos_url' => $album_photos_url));
     }
 
     function download_Album()
@@ -193,6 +138,12 @@ class Fb_Login extends CI_Controller {
 
         $user = $this->facebook->getUser();
         $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,count&limit=100');
+
+        if(empty($albums['data']==''))
+        {
+            echo json_encode(array('no_albums_found' => 'no_albums_found'));
+            exit();
+        }
         
         foreach ($albums['data'] as $album) 
         {
@@ -291,27 +242,14 @@ class Fb_Login extends CI_Controller {
 
     }   
 
-    // function download_zip_file()
-    // {
-    //     $download_zip_file_name=$this->session->userdata('download_zip_file_name').'.zip';
-    //     $data = file_get_contents(base_url('assets/downloads/zip_files/'.$download_zip_file_name)); // Read the file's contents
-    //     $name = $download_zip_file;
-    //     force_download($name, $data);  
-    //     $this->session->unset_userdata('download_zip_file_name');
-    // }
-
     function Profile()
-    {
-     
-        // $data['user_profile'] = $this->facebook->api('/me?fields=id,name,first_name,last_name,email,age_range,link,gender,locale,picture,timezone,updated_time,verified,albums,birthday,friends,about,bio,context,cover,currency,devices,education,favorite_athletes,favorite_teams,hometown,inspirational_people,installed,languages,location,middle_name,name_format,political,quotes,relationship_status,religion,significant_other,third_party_id,is_verified,website,work&limit=5000');
-        // $data['user_photos'] = $this->facebook->api('/me/photos?&limit=5000');          
+    {    
         $data['user_profile'] = $this->facebook->api('/me?fields=id,name,first_name,last_name,email,age_range,link,gender,locale,picture,timezone,updated_time,verified,albums,cover,currency,hometown&limit=5000');
         $data['user_photos'] = $this->facebook->api('/me/photos?&limit=5000'); 
         $data['logout_url'] = base_url('Fb_Login/logout');
         $user = $this->facebook->getUser();
             $data['login_url'] = $this->facebook->getLoginUrl(array(
                 'redirect_uri' => base_url('Fb_Login'),
-                // 'scope' => array("email,public_profile,user_friendsuser_about_me,user_photos,user_birthday,user_friends,user_location,user_likes,user_photos,publish_actions,user_education_history,user_hometown,user_location,user_website,user_work_history,manage_friendlists") // permissions here
                 'scope' => array("email,public_profile,user_friends,user_hometown") // permissions here                
             ));           
 

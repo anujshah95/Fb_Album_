@@ -75,7 +75,8 @@
                                                         <img class='img-thumbnail ' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'>
                                                     </a><br><br>";
                                                 echo "<div class='checkbox'><input type='checkbox' value='".$id."' name='album_id'>";
-                                                echo "<a href='#' onClick='getPhotos(".$id.")'>".$album['name']." (".$album['count'].")"."</a></div><br>";
+                                                echo "<a href='#' onClick='getPhotos(".$id.")' >".$album['name']." (".$album['count'].")"."</a>";
+                                                echo "</div><br>";
                                                 echo "<a href='#' onClick=\"download_Album(".$id.",'".$album['name']."')\"><button type='button' class='btn btn-primary btn-sm'><span class='glyphicon glyphicon-download-alt'></span> Download This Album</button></a>";
                                             echo "</td>";
 
@@ -131,7 +132,7 @@
                     </div>
                 <?php
                     }
-                ?>
+                ?>   
     </div> <!-- /container -->
 
 
