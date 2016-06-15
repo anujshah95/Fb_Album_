@@ -61,7 +61,7 @@
                             if(isset($albums))
                             {
                                 $counter=1;
-                                echo "<table><tbody>";
+                                echo "<table class='table'><tbody>";
 
                                 foreach($albums['data'] as $album)  
                                 {
@@ -72,7 +72,7 @@
                                                 $id=$album['id'];
                                                 $album_name=$album['name'];
                                                 echo "<a href='#' onClick='getPhotos(".$id.")'> 
-                                                        <img class='img-thumbnail ' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'>
+                                                        <img class='img-thumbnail img-responsive' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'>
                                                     </a><br><br>";
                                                 echo "<div class='checkbox'><input type='checkbox' value='".$id."' name='album_id'>";
                                                 echo "<a href='#' onClick='getPhotos(".$id.")' >".$album['name']." (".$album['count'].")"."</a>";
