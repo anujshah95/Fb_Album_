@@ -41,7 +41,7 @@
                         </div>
                     </div>
 
-                        <div class="albums_list">
+                    <div class="albums_list">
                         <?php
                             echo "<div class='row pull-right'>";
                                 echo "<a href='#' onClick=\"download_selected_albums()\">
@@ -98,41 +98,29 @@
                                 echo "</tbody></table>";    
                             }
                          ?>
-                         </div>
-                    <!-- </div> -->
+                    </div>
                 </div>
+                <?php } ?>
 
 
-                    <?php                        
-                            }
-                        ?>
-                <?php if(!isset($user_profile))
-                    {
-                ?>
-                <script type="text/javascript"> var background_slideshow=true; </script>
-                <div class="row">
-                    <div id="background-slideshow" ></div>
-                    <h2 class="form-signin-heading login-text">Login with Facebook</h2>
-                    <?php if(isset($login_url)) { ?> <a href="<?= $login_url ?>" class="btn btn-lg btn-primary btn-block loginButton" role="button">Login</a> <?php } ?>
-                </div>
-                <?php 
-                    } 
-                ?>
-
+                <?php if(!isset($user_profile)) { ?>
+                    <script type="text/javascript"> var background_slideshow=true; </script>
+                    <div class="row">
+                        <div id="background-slideshow" ></div>
+                        <h2 class="form-signin-heading login-text">Login with Facebook</h2>
+                        <?php if(isset($login_url)) { ?> <a href="<?= $login_url ?>" class="btn btn-lg btn-primary btn-block loginButton" role="button">Login</a> <?php } ?>
+                    </div>
+                <?php } ?>
         </form>
 
-                <?php if(isset($user_profile))
-                {
-                ?>
-                    <div class="row">
-                    <footer>            
-                        <h3> By Anuj Shah </h3>
-                        <a href="http://anujshah.in" target="_blank"><h4>anujshah.in</h4></a>
-                    </footer>
-                    </div>
-                <?php
-                    }
-                ?>   
+        <?php if(isset($user_profile)) { ?>
+            <div class="row">
+                <footer>            
+                    <h3> By Anuj Shah </h3>
+                    <a href="http://anujshah.in" target="_blank"><h4>anujshah.in</h4></a>
+                </footer>
+            </div>
+        <?php } ?>   
     </div> <!-- /container -->
 
 

@@ -38,13 +38,12 @@
 	    </div>
 
 	    <div class="row">
-	    		<footer>
-		<h3> By Anuj Shah </h3>
-		<a href="http://anujshah.in" target="_blank"><h4>anujshah.in</h4></a>
-
-	</footer>
+	    	<footer>
+				<h3> By Anuj Shah </h3>
+				<a href="http://anujshah.in" target="_blank"><h4>anujshah.in</h4></a>
+			</footer>
 	    </div>
-    </div> 		
+    </div><!-- containe -->
 	<?php 
 	} 
 	?>
