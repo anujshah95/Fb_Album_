@@ -139,7 +139,7 @@ class Fb_Login extends CI_Controller {
         $user = $this->facebook->getUser();
         $albums = $this->facebook->api('/me/albums?fields=id,name,created_time,picture,count&limit=100');
 
-        if(empty($albums['data']==''))
+        if(empty($albums['data']))
         {
             echo json_encode(array('no_albums_found' => 'no_albums_found'));
             exit();
