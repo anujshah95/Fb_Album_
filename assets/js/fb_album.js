@@ -34,7 +34,7 @@
 	        	album_id: id,
 	        };
 	     	$.ajax({
-	           	url: baseURL+'Fb_Login/album_photos',
+	           	url: baseURL+'Fb_Login/albumPhotos',
 	            type: "POST",
 	            data: form_data,
 	            success: function (data){
@@ -85,7 +85,7 @@
 	        	album_name:album_name
 	        };
 	     	$.ajax({
-	           	url: baseURL+'Fb_Login/download_Album',
+	           	url: baseURL+'Fb_Login/downloadAlbum',
 	            type: "POST",
 	            data: form_data,
 	            success: function (data){
@@ -121,7 +121,7 @@
 	        	download_All_Album_value: download_All_Album_value
 	        };
 	     	$.ajax({
-	           	url: baseURL+'Fb_Login/download_All_Album',
+	           	url: baseURL+'Fb_Login/downloadAllAlbum',
 	            type: "POST",
 	            data: form_data,
 	            success: function (data){
@@ -169,7 +169,7 @@
 		        	album_id_array: album_id_array
 		        };
 		     	$.ajax({
-		           	url: baseURL+'Fb_Login/download_selected_albums',
+		           	url: baseURL+'Fb_Login/downloadSelectedAlbums',
 		            type: "POST",
 		            data: form_data,
 		            success: function (data){

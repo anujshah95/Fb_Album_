@@ -1,3 +1,19 @@
+<?php
+
+/**
+* File: header.php
+* 
+* PHP version 5.5.9
+*
+* @category View
+* @package  Fb_Album_
+* @author   Anuj Shah <anuj.shah95@gmail.com>
+* @license  anujshah.in http://anujshah.in/Fb_Album/
+* @link     http://anujshah.in/Fb_Album/
+*/
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +37,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top fb_navbar">
         <div class="container-fluid">
             <div class="navbar-header" >
-                <?php if(isset($user_profile)) { ?>
+                <?php if (isset($user_profile)) { ?>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
@@ -36,15 +52,16 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
-                        <?php if(isset($user_profile)) { ?>
-                            <img alt="<?php echo $user_profile['name'] ?>" src="https://graph.facebook.com/<?=$user_profile['id']?>/picture?type=large" style="width: 30px; height: 30px;">
+                        <?php if (isset($user_profile)) { ?>
+                            <img alt="<?php echo $user_profile['name']; ?>" src="https://graph.facebook.com/<?php echo $user_profile['id']; ?>/picture?type=large" 
+                            style="width: 30px; height: 30px;">
                             <?php echo $user_profile['name']; ?> <span class="caret"></span></a>
                         <?php } ?>
                     
                     <ul class="dropdown-menu" >
-                        <li><a href="<?php echo base_url('Fb_Login/Profile'); ?>"><i class="glyphicon glyphicon-user"> Profile </i></a></li>
+                        <li><a href="<?php echo base_url('Fb_Login/profile'); ?>"><i class="glyphicon glyphicon-user"> Profile </i></a></li>
                         <li role="separator" class="divider"></li>
-                        <?php if(isset($logout_url)) { ?>
+                        <?php if (isset($logout_url)) { ?>
                             <li><a href="<?php echo $logout_url; ?>"><i class="glyphicon glyphicon-log-out"> Logout</i></a></li>
                         <?php } ?>
                     </ul>
@@ -53,4 +70,3 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-
