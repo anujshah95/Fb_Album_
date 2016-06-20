@@ -36,7 +36,8 @@ class Fb_Login extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('facebook/facebook'); 
+        $this->load->library('facebook/facebook');
+        date_default_timezone_set('Asia/Kolkata');
     }
 
     /**

@@ -1,6 +1,5 @@
 
     <div class="container">
-        <form class="form-signin" role="form">
             <?php if(isset($user_profile))
             {
             ?>
@@ -40,39 +39,39 @@
                             <div id="links" class="links"></div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="albums_list">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-lg-12">
+                        <div class='pull-right albums_list'>
+                            <a href='#' onClick="download_selected_albums()">
+                                <button type='button' class='btn btn-primary btn-md'>
+                                    <span class='glyphicon glyphicon-download-alt'></span> 
+                                    Download Selected
+                                </button>
+                            </a>
+                            <a href='#' onClick="download_All_Album()">
+                                <button type='button' class='btn btn-primary btn-md'>
+                                    <span class='glyphicon glyphicon-download-alt'></span> 
+                                    Download All Albums
+                                </button>
+                            </a>
+                        </div>
                         <?php
-                            echo "<div class='row pull-right'>";
-                                echo "<a href='#' onClick=\"download_selected_albums()\">
-                                        <button type='button' class='btn btn-primary btn-md'>
-                                            <span class='glyphicon glyphicon-download-alt'></span> 
-                                            Download Selected
-                                        </button>
-                                        </a>";
-                                echo "<a href='#' onClick=\"download_All_Album()\">
-                                        <button type='button' class='btn btn-primary btn-md'>
-                                            <span class='glyphicon glyphicon-download-alt'></span> 
-                                            Download All Albums
-                                        </button>
-                                        </a>";
-                            echo "</div>";
-                                  
                             if(isset($albums))
                             {
                                 $counter=1;
-                                echo "<table class='table'><tbody>";
-
+                                echo "<table class='table albums_list'><tbody>";
                                 foreach($albums['data'] as $album)  
                                 {
                                     if ($counter == 1) {
                                         echo "<tr>";
                                     }
-                                            echo "<td style='text-align:center' class='user_albums'>";
+                                            echo "<td style='text-align:center'>";
                                                 $id=$album['id'];
                                                 $album_name=$album['name'];
                                                 echo "<a href='#' onClick='getPhotos(".$id.")'> 
-                                                        <img class='img-thumbnail img-responsive' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'>
+                                                        <img class='img-thumbnail img-responsive img-fluid' alt=".$album['name']." src=".$album['picture']['data']['url']." style='width: 200px; height: 200px;'>
                                                     </a><br><br>";
                                                 echo "<div class='checkbox'><input type='checkbox' value='".$id."' name='album_id'>";
                                                 echo "<a href='#' onClick='getPhotos(".$id.")' >".$album['name']." (".$album['count'].")"."</a>";
@@ -98,20 +97,19 @@
                                 echo "</tbody></table>";    
                             }
                          ?>
-                    </div>
-                </div>
+                    </div> <!--class col -->
+                </div> <!--row-->
                 <?php } ?>
 
 
                 <?php if(!isset($user_profile)) { ?>
                     <script type="text/javascript"> var background_slideshow=true; </script>
-                    <div class="row">
-                        <div id="background-slideshow" ></div>
-                        <h2 class="form-signin-heading login-text">Login with Facebook</h2>
-                        <?php if(isset($login_url)) { ?> <a href="<?= $login_url ?>" class="btn btn-lg btn-primary btn-block loginButton" role="button">Login</a> <?php } ?>
+                    <div class="row col-xs-12 col-sm-12 col-lg-12">
+                        <div id="background-slideshow" class="img-responsive" style="max-width: 100%;height: auto;display:block;"></div>
+                        <h2 class="login-text">Login with Facebook</h2>
+                        <?php if(isset($login_url)) { ?> <a href="<?php echo $login_url; ?>" class="btn btn-lg btn-primary btn-block login-button" role="button">Login</a> <?php } ?>
                     </div>
                 <?php } ?>
-        </form>
 
         <?php if(isset($user_profile)) { ?>
             <div class="row">

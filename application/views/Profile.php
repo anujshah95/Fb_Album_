@@ -16,12 +16,10 @@
 <?php if (isset($user_profile)) { ?>
     <div class="container">
 	  	<div class="row">
-		  	<div class="my_profile"> 
-				<img alt="Cover_Photo" src="<?php if(isset($user_profile['cover']['source'])) echo $user_profile['cover']['source'] ?>" class="cover_photo"><br>
-				<img class="profile_picture img-thumbnail" alt="<?php if(isset($user_profile['first_name'])) echo $user_profile['first_name'] ?>" 
-					src="https://graph.facebook.com/<?php echo $user_profile['id']; ?>/picture?type=large">
-				<h2 class="profile_name"><?php if(isset($user_profile['name'])) echo $user_profile['name'] ?></h2>
-			</div>	
+			<img alt="Cover_Photo" src="<?php if(isset($user_profile['cover']['source'])) echo $user_profile['cover']['source'] ?>" class="img-responsive cover_photo"><br>
+			<img class="profile_picture img-thumbnail img-responsive" alt="<?php if(isset($user_profile['first_name'])) echo $user_profile['first_name'] ?>" 
+				src="https://graph.facebook.com/<?php echo $user_profile['id']; ?>/picture?type=large">
+			<h2 class="profile_name"><?php if(isset($user_profile['name'])) echo $user_profile['name'] ?></h2>
 		</div>
 
 		<div class="row">
